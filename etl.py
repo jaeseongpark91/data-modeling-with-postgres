@@ -7,13 +7,23 @@ from sql_queries import *
 
 
 def process_song_file(cur, all_files):
+"""
+DESCRIPTION: This function consists of two parts. First, it reads the data in 'data/song_data' and create a dataframe consolidating the data in 'data/song_data' directory. Secondly, it inserts data into songs and artists dim table.
+    
+ARGUMENTS:
+    cur: the curosr object
+    filepath: song data file path.
+    
+RETURNS:
+    None 
+    """
     # open song file
     df_song = pd.DataFrame()
     for filepath in all_files:
         with open(filepath) as f:
             data = json.load(f)
-    df = pd.DataFrame([data])
-    df_song = pd.concat([df, df_song])
+        df = pd.DataFrame([data])
+        df_song = pd.concat([df, df_song])
 
     # insert song record
     song_data = df_song.loc[:,['song_id', 'title', 'artist_id', 'year', 'duration']]
@@ -21,13 +31,22 @@ def process_song_file(cur, all_files):
         cur.execute(song_table_insert, row)
     
     # insert artist record
-    artist_data = df.loc[:,['artist_id', 'artist_name', 'artist_location', 'artist_latitude', 'artist_longitude']]
+    artist_data = df_song.loc[:,['artist_id', 'artist_name', 'artist_location', 'artist_latitude', 'artist_longitude']]
     for i, row in artist_data.iterrows():
         cur.execute(artist_table_insert, row)
 
 
 def process_log_file(cur, all_files):
+"""
+DESCRIPTION: This function consists of two parts. First, it reads the data in 'data/log_data' and create a dataframe consolidating the data in 'data/log_data' directory. Secondly, it inserts data into times, users, and songplays table.
     
+ARGUMENTS:
+    cur: the curosr object
+    filepath: log data file path.
+    
+RETURNS:
+    None 
+    """
     # open log file
     log_data = []
     for filepath in all_files:
@@ -85,6 +104,18 @@ def process_log_file(cur, all_files):
 
 
 def process_data(cur, conn, filepath, func):
+"""
+DESCRIPTION: This function creates a list of absolute directories of the data in the designated filepath and proceed the function(either 'process_song_file' or 'process_log_file'). 
+    
+ARGUMENTS:
+    cur: the curosr object
+    conn: the connection object
+    filepath: data file path
+    func: process function type (either 'process_song_file' or 'process_log_file')
+    
+RETURNS:
+    None
+"""
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
