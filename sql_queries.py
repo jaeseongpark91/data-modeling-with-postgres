@@ -1,4 +1,4 @@
-# DROP TABLES
+s# DROP TABLES
 
 songplay_table_drop = "DROP TABLE IF EXISTS songplays"
 user_table_drop = "DROP TABLE IF EXISTS users"
@@ -9,23 +9,23 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 # CREATE TABLES
 
 songplay_table_create = ("""
-CREATE TABLE IF NOT EXISTS songplays (songplay_id SERIAL PRIMARY KEY, start_time varchar, user_id varchar, level varchar, song_id varchar, artist_id varchar, session_id varchar, location varchar, user_agent varchar)
+CREATE TABLE IF NOT EXISTS songplays (songplay_id SERIAL PRIMARY KEY, start_time int, user_id varchar, level varchar, song_id varchar FOREIGN KEY, artist_id varchar FOREIGN KEY, session_id int, location varchar, user_agent varchar)
 """)
 
 user_table_create = ("""
-CREATE TABLE IF NOT EXISTS users (user_id varchar, first_name varchar, last_name varchar, gender varchar, level varchar)
+CREATE TABLE IF NOT EXISTS users (user_id varchar PRIMARY KEY, first_name varchar, last_name varchar, gender varchar, level varchar)
 """)
 
 song_table_create = ("""
-CREATE TABLE IF NOT EXISTS songs (song_id varchar, title varchar, artist_id varchar, year varchar, duration int)
+CREATE TABLE IF NOT EXISTS songs (song_id varchar PRIMARY KEY, title varchar, artist_id varchar, year int, duration int)
 """)
 
 artist_table_create = ("""
-CREATE TABLE IF NOT EXISTS artists (artist_id varchar, name varchar, location varchar, latitude varchar, longitude varchar)
+CREATE TABLE IF NOT EXISTS artists (artist_id varchar PRIMARY KEY, name varchar, location varchar, latitude float, longitude float)
 """)
 
 time_table_create = ("""
-CREATE TABLE IF NOT EXISTS times (hour varchar, day varchar, week varchar, month varchar, year varchar, weekday varchar)
+CREATE TABLE IF NOT EXISTS times (hour int, day int, week int, month int, year int, weekday int)
 """)
 
 # INSERT RECORDS
@@ -36,6 +36,8 @@ INSERT INTO songplays (songplay_id, user_id, level, song_id, artist_id, session_
 
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level) VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT (user_id)
+DO UPDATE SET level  = EXCLUDED.level;
 """)
 
 song_table_insert = ("""
@@ -44,6 +46,10 @@ INSERT INTO songs (song_id, title, artist_id, year, duration) VALUES (%s, %s, %s
 
 artist_table_insert = ("""
 INSERT INTO artists (artist_id, name, location, latitude, longitude) VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT (artist_id)
+DO UPDATE SET location = EXCLUDED.location
+DO UPDATE SET latitude = EXCLUDED.latitude
+DO UPDATE SET longitude = EXCLUDED.longitude
 """)
 
 
