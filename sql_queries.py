@@ -1,4 +1,4 @@
-s# DROP TABLES
+# DROP TABLES
 
 songplay_table_drop = "DROP TABLE IF EXISTS songplays"
 user_table_drop = "DROP TABLE IF EXISTS users"
