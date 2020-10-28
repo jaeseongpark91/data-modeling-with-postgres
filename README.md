@@ -9,7 +9,7 @@ They'd like a data engineer to create a Postgres database with tables designed t
 The purpose of this project is to create a database schema and ETL pipeline.
 
 ### Database Schema
-Here is the database schema diagram 
+Here is the database schema diagram.
 
 ![schema diagram](schema_diagram.png)
 
