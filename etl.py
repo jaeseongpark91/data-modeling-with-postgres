@@ -7,12 +7,12 @@ from sql_queries import *
 
 
 def process_song_file(cur, all_files):
-"""
+    """
 DESCRIPTION: This function consists of two parts. First, it reads the data in 'data/song_data' and create a dataframe consolidating the data in 'data/song_data' directory. Secondly, it inserts data into songs and artists dim table.
     
 ARGUMENTS:
-    cur: the curosr object
-    filepath: song data file path.
+cur: the curosr object
+filepath: song data file path.
     
 RETURNS:
     None 
@@ -37,7 +37,7 @@ RETURNS:
 
 
 def process_log_file(cur, all_files):
-"""
+    """
 DESCRIPTION: This function consists of two parts. First, it reads the data in 'data/log_data' and create a dataframe consolidating the data in 'data/log_data' directory. Secondly, it inserts data into times, users, and songplays table.
     
 ARGUMENTS:
@@ -104,7 +104,7 @@ RETURNS:
 
 
 def process_data(cur, conn, filepath, func):
-"""
+    """
 DESCRIPTION: This function creates a list of absolute directories of the data in the designated filepath and proceed the function(either 'process_song_file' or 'process_log_file'). 
     
 ARGUMENTS:
@@ -115,7 +115,7 @@ ARGUMENTS:
     
 RETURNS:
     None
-"""
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
