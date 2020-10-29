@@ -71,16 +71,18 @@ RETURNS:
         return list_data
 
     df_log['extracted'] = df_log['dt'].apply(datetime_extract)
+    df_log = df_log[df_log['page']=='NextSong']
     
-    time_data = df_log['extracted']
+    time_data = df_log['extracted'].tolist()
     column_labels = ['hour', 'day', 'week_of_the_year', 'month', 'year', 'weekday']
-    time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
+    time_df = pd.DataFrame(time_data, columns=column_labels)
 
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
 
     # load user table
     user_df = df_log.loc[:,["userId", "firstName", "lastName", "gender", "level"]]
+    user_df = user_df.dropna()
 
     # insert user records
     for i, row in user_df.iterrows():
@@ -100,7 +102,11 @@ RETURNS:
 
         # insert songplay record
         songplay_data = [row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent]
-        cur.execute(songplay_table_insert, songplay_data)
+        songplay_data_after = [i for i in songplay_data if str(i) != '']
+        if songplay_data != songplay_data_after:
+            continue
+        else:
+            cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
