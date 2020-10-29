@@ -39,7 +39,7 @@ Here is the database schema and brief explanation of each tables.
 
 
 ## Procedures
-First of all by extracting 'song' data, I built two dimension tables ('songs' and 'artists') and from 'log' data I created another two dimension tables ('users', 'times'). Then by consolidating two datasets I built 'songplays' fact table. 
+First of all, by extracting 'song' data, I built two dimension tables ('songs' and 'artists') and from 'log' data I created another two dimension tables ('users', 'times'). Then by consolidating two datasets I built 'songplays' fact table. 
 
 One tricky issue was that since the log file does not specify an ID for either the song or the artist. I solved this issue by geting the song ID and artist ID by querying the songs and artists tables to find matches based on song title, artist name, and song duration time.
 
