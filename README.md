@@ -30,7 +30,7 @@ And here is an example of what the data in a log file looks like.
 
 ![schema diagram](schema_diagram.png)
 
-Here is the database and brief explanation of each tables.
+Here is the database schema and brief explanation of each tables.
 - **(fact) 'songplays'** : records in log data associated with song plays i.e. records with page NextSong (*songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent*)
 - **(dim) 'artists'** : artist in the music database (*artist_id, name, location, latitude, longitude*)
 - **(dim) 'songs'** : song in the music database (*song_id, title, artist_id, year, duration*)
